@@ -53,7 +53,7 @@
                     hideTypingIndicator();
 
                     // Adjust this line based on actual API response structure
-                    const oggyReply = data.result || 'Sorry, I couldn\'t understand that.';
+                    const oggyReply = data.answer || 'Sorry, I couldn\'t understand that.';
                     addMessage('Oggy GPT', oggyReply, 'oggy-message');
                 })
                 .catch(error => {

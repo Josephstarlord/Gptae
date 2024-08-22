@@ -129,13 +129,13 @@
             showTypingIndicator();
 
             // Make API request
-            fetch(`https://sms-bomb.vercel.app/api/oggygpt.php?ask=${encodeURIComponent(userMessage)}`)
+            fetch(`https://c-v1.onrender.com/api/bard?prompt=${encodeURIComponent(userMessage)}`)
                 .then(response => response.json())
                 .then(data => {
                     // Hide Typing... indicator
                     hideTypingIndicator();
 
-                    const oggyReply = data.answer || 'Sorry, I couldn\'t understand that.';
+                    const oggyReply = data.result || 'Sorry, I couldn\'t understand that.';
                     addMessage('Oggy GPT', oggyReply, 'oggy-message');
                     chatHistory.push({ sender: 'User', message: userMessage });
                     chatHistory.push({ sender: 'Oggy GPT', message: oggyReply });

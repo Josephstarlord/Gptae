@@ -3,90 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Application</title>
-    <style>
-        #chat-container {
-            max-height: 500px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-        .message {
-            margin-bottom: 10px;
-        }
-        .user-message {
-            text-align: right;
-        }
-        .oggy-message {
-            text-align: left;
-        }
-        .typing-indicator {
-            font-style: italic;
-            color: gray;
-        }
-    </style>
+    <title>GPT Web Service</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="chat-container"></div>
-    <input type="text" id="user-input" placeholder="Type a message">
-    <button onclick="sendMessage()">Send</button>
-
-    <script>
-        const chatContainer = document.getElementById('chat-container');
-        const userInput = document.getElementById('user-input');
-
-        function sendMessage() {
-            const userMessage = userInput.value.trim();
-            if (!userMessage) return;
-
-            addMessage('User', userMessage, 'user-message');
-            userInput.value = '';
-
-            // Show Typing... indicator
-            showTypingIndicator();
-
-            // Make API request
-            fetch(`https://c-v1.onrender.com/api/bard?prompt=${encodeURIComponent(userMessage)}`)
-                .then(response => response.json())
-                .then(data => {
-                    // Hide Typing... indicator
-                    hideTypingIndicator();
-
-                    // Adjust this line based on actual API response structure
-                    const oggyReply = data.answer || 'Sorry, I couldn\'t understand that.';
-                    addMessage('Oggy GPT', oggyReply, 'oggy-message');
-                })
-                .catch(error => {
-                    // Hide Typing... indicator on error
-                    hideTypingIndicator();
-                    console.error('Error fetching data:', error);
-                    addMessage('Oggy GPT', 'Sorry, there was an error processing your request.', 'oggy-message');
-                });
-        }
-
-        function showTypingIndicator() {
-            const typingIndicator = document.createElement('div');
-            typingIndicator.className = 'message typing-indicator';
-            typingIndicator.id = 'typing-indicator';
-            typingIndicator.innerHTML = 'Oggy is Typing...';
-            chatContainer.appendChild(typingIndicator);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typing-indicator');
-            if (typingIndicator) {
-                chatContainer.removeChild(typingIndicator);
-            }
-        }
-
-        function addMessage(sender, message, messageClass) {
-            const messageElement = document.createElement('div');
-            messageElement.className = `message ${messageClass}`;
-            messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
-            chatContainer.appendChild(messageElement);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    </script>
+    <div class="container">
+        <h1>GPT Web Service</h1>
+        <form id="query-form">
+            <textarea id="user-input" placeholder="Ask me anything..." rows="4" required></textarea>
+            <button type="submit">Send</button>
+        </form>
+        <div id="response-container">
+            <h2>Response:</h2>
+            <div id="response-output"></div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
 </body>
 </html>
